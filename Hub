@@ -1,0 +1,63 @@
+
+
+*************** Tunnel Configuration *****************
+
+in tun <NUMBER>
+ ip addr <LOCAL PREFIX>
+ tunnel source <OUTGOING INTERFACE>
+ tunnel mode gre multipoint
+ ip nhrp network-id <NUMBER>
+ ip nhrp map multicast dynamic
+
+
+
+************ ISAKMP/IKEv1Configuration ********************
+
+crypto keyring <NAME>
+ pre-shared-key address <SPOKE PUBLIC ADDRESS> key <SECRET>
+ 
+
+#Note: You've to create multiple entry for multiple address
+
+
+
+crypto isakmp policy <NUMBER>
+ hash <VALUE>
+ encryption <VALUE>
+ authentication pre-share
+ group <VALUE>
+
+
+
+crypto isakmp profile <NAME>
+ keyring <CREATED KEYRING>
+ match identity address <SPOKE PUBLIC ADDRESS> 
+
+
+#Note: You've to create multiple entry for multiple address
+
+
+************* IPSEC Configuration **********************
+
+crypto ipsec trasfrom-set <NAME> <VALUE>
+ mode tunnel
+
+
+crypto ipsec profile <NAME>	
+ set transform-set <CREATED TRANSFORM-SET>
+ set isakmp-profile <CREATED ISAKMP PROFILE>
+
+
+***************** Map IPSEC with Tunnel ******************
+
+	 
+int tun <NUMBER>
+  tunnel protection ipsec profile <CREATED IPSEC PROFILE>
+  
+  
+  
+  
+  
+  
+  
+  
